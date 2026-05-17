@@ -1,5 +1,5 @@
 
-`define PRIMER
+`define NANO
 `define SDRAM_3CH
 `define CHIP_DSPn
 // `define CHIP_GSU

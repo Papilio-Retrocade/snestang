@@ -1,183 +1,176 @@
-IO_LOC "sys_clk" E2;        // 50Mhz
+// snestang.cst - Papilio Retrocade (Tang Primer 20K / GW2A-LV18PG256C8/I7)
+// Corrected from primer25k (GW5A-25) to GW2A-18C with verified pin assignments.
+// Sources:
+//   Clock/HDMI/SD: A2600Nano/src/a2600_top_retrocade.cst (verified working)
+//   SDRAM: papilio_retrocade_hardware/cst/Papilio_RetroCade_SDRAM.cst
+//          (DQ10=E16 corrected from master .cst which had duplicate E15)
+//   HDMI D0_P: P8 (corrected from M6 which is PMOD IOB1)
+
+IO_LOC "sys_clk" H11;        // 27MHz oscillator on Tang Primer 20K module
 IO_PORT "sys_clk" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=OFF BANK_VCCIO=3.3;
 
-IO_LOC "s0" H11;       
-IO_PORT "s0" IO_TYPE=LVCMOS33 PULL_MODE=DOWN DRIVE=OFF BANK_VCCIO=3.3;
+IO_LOC "s0" T10;             // Key1 FPGA_RST button
+IO_PORT "s0" IO_TYPE=LVCMOS33 PULL_MODE=UP DRIVE=OFF BANK_VCCIO=3.3;
 
-//IO_LOC "reset2" H10;
-//IO_PORT "reset2" IO_TYPE=LVCMOS33 PULL_MODE=UP DRIVE=OFF BANK_VCCIO=3.3;
-
-// HDMI (USB-A side PMOD)
-IO_LOC "tmds_clk_p" H5;
+// HDMI - Papilio Retrocade (verified via A2600Nano retrocade project)
+IO_LOC "tmds_clk_p" P6;
 IO_PORT "tmds_clk_p" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_clk_n" J5;
+IO_LOC "tmds_clk_n" T6;
 IO_PORT "tmds_clk_n" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_d_p[0]" H8;
+IO_LOC "tmds_d_p[0]" P8;
 IO_PORT "tmds_d_p[0]" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_d_n[0]" H7;
+IO_LOC "tmds_d_n[0]" T8;
 IO_PORT "tmds_d_n[0]" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_d_p[1]" G7;
+IO_LOC "tmds_d_p[1]" T11;
 IO_PORT "tmds_d_p[1]" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_d_n[1]" G8;
+IO_LOC "tmds_d_n[1]" P11;
 IO_PORT "tmds_d_n[1]" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_d_p[2]" F5;
+IO_LOC "tmds_d_p[2]" T12;
 IO_PORT "tmds_d_p[2]" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_d_n[2]" G5;
+IO_LOC "tmds_d_n[2]" R11;
 IO_PORT "tmds_d_n[2]" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
 
 // SDCard
-IO_LOC "sd_clk" C11;
-IO_PORT "sd_clk" PULL_MODE=NONE IO_TYPE=LVCMOS33; 
-IO_LOC "sd_cmd" D11;        // MOSI
-IO_PORT "sd_cmd" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "sd_dat0" B11;       // MISO or SD card DO, needs pull-up
+IO_LOC "sd_clk" N10;
+IO_PORT "sd_clk" PULL_MODE=UP IO_TYPE=LVCMOS33;
+IO_LOC "sd_cmd" R14;         // MOSI
+IO_PORT "sd_cmd" PULL_MODE=UP IO_TYPE=LVCMOS33;
+IO_LOC "sd_dat0" M8;         // MISO (dat[0])
 IO_PORT "sd_dat0" PULL_MODE=UP IO_TYPE=LVCMOS33;
-IO_LOC "sd_dat1" G10;       // 1
-IO_PORT "sd_dat1" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "sd_dat2" D10;       // 1
-IO_PORT "sd_dat2" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "sd_dat3" G11;       // 1
-IO_PORT "sd_dat3" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-// old MUSELab SDCARD 1.0
-// IO_LOC "sd_clk" D10;
-// IO_PORT "sd_clk" PULL_MODE=NONE IO_TYPE=LVCMOS33; 
-// IO_LOC "sd_cmd" D11;        // MOSI
-// IO_PORT "sd_cmd" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-// IO_LOC "sd_dat0" B11;       // MISO or SD card DO, needs pull-up
-// IO_PORT "sd_dat0" PULL_MODE=UP IO_TYPE=LVCMOS33;
-// IO_LOC "sd_dat1" B10;       // 1
-// IO_PORT "sd_dat1" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-// IO_LOC "sd_dat2" G11;       // 1
-// IO_PORT "sd_dat2" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-// IO_LOC "sd_dat3" G10;       // 1
-// IO_PORT "sd_dat3" PULL_MODE=NONE IO_TYPE=LVCMOS33;
+IO_LOC "sd_dat1" M7;
+IO_PORT "sd_dat1" PULL_MODE=UP IO_TYPE=LVCMOS33;
+IO_LOC "sd_dat2" M10;
+IO_PORT "sd_dat2" PULL_MODE=UP IO_TYPE=LVCMOS33;
+IO_LOC "sd_dat3" N11;        // CS (dat[3])
+IO_PORT "sd_dat3" PULL_MODE=UP IO_TYPE=LVCMOS33;
 
-// UART through USB-C port
-IO_LOC "UART_RXD" B3;       // the primer25k example is reversed
-IO_LOC "UART_TXD" C3;
+// UART through ESP32-S3
+IO_LOC "UART_RXD" E14;       // ESP32 TX -> FPGA RX
+IO_LOC "UART_TXD" C9;        // FPGA TX -> ESP32 RX
 IO_PORT "UART_RXD" IO_TYPE=LVCMOS33;
 IO_PORT "UART_TXD" IO_TYPE=LVCMOS33;
 
-// NOR Flash W25Q64 (MSPI pins)
-IO_LOC "flash_spi_cs_n" E6;
+// SPI Flash (MSPI pins on Tang Primer 20K)
+IO_LOC "flash_spi_cs_n" M9;
 IO_PORT "flash_spi_cs_n" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "flash_spi_wp_n" D5;
+IO_LOC "flash_spi_wp_n" P12;
 IO_PORT "flash_spi_wp_n" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "flash_spi_hold_n" E4;
+IO_LOC "flash_spi_hold_n" F12;
 IO_PORT "flash_spi_hold_n" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "flash_spi_miso" E5;
+IO_LOC "flash_spi_miso" P10;  // mspi_do (data out of flash)
 IO_PORT "flash_spi_miso" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "flash_spi_mosi" D6;
+IO_LOC "flash_spi_mosi" R10;  // mspi_di (data into flash)
 IO_PORT "flash_spi_mosi" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "flash_spi_clk" E7;
+IO_LOC "flash_spi_clk" L10;
 IO_PORT "flash_spi_clk" PULL_MODE=NONE IO_TYPE=LVCMOS33;
 
-// Mister SDRAM v3.0 connected through 40-pin port
-IO_LOC "IO_sdram_dq[0]" K2;
+// SDRAM - Papilio Retrocade on-board IS42S16160J (16-bit, 13 row addr)
+// Source: papilio_retrocade_hardware/cst/Papilio_RetroCade_SDRAM.cst
+// Note: DQ10=E16 (corrected; master .cst had duplicate E15 = same as A9)
+IO_LOC "IO_sdram_dq[0]" K13;
 IO_PORT "IO_sdram_dq[0]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[1]" K1;
+IO_LOC "IO_sdram_dq[1]" K12;
 IO_PORT "IO_sdram_dq[1]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[2]" L1;
+IO_LOC "IO_sdram_dq[2]" K11;
 IO_PORT "IO_sdram_dq[2]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[3]" L2;
+IO_LOC "IO_sdram_dq[3]" L13;
 IO_PORT "IO_sdram_dq[3]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[4]" K4;
+IO_LOC "IO_sdram_dq[4]" H15;
 IO_PORT "IO_sdram_dq[4]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[5]" J4;
+IO_LOC "IO_sdram_dq[5]" G16;
 IO_PORT "IO_sdram_dq[5]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[6]" G1;
+IO_LOC "IO_sdram_dq[6]" H14;
 IO_PORT "IO_sdram_dq[6]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[7]" G2;
+IO_LOC "IO_sdram_dq[7]" H16;
 IO_PORT "IO_sdram_dq[7]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[8]" E1;
+IO_LOC "IO_sdram_dq[8]" C12;
 IO_PORT "IO_sdram_dq[8]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[9]" A1;
+IO_LOC "IO_sdram_dq[9]" B12;
 IO_PORT "IO_sdram_dq[9]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[10]" F2;
+IO_LOC "IO_sdram_dq[10]" E16;
 IO_PORT "IO_sdram_dq[10]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[11]" F1;
+IO_LOC "IO_sdram_dq[11]" F15;
 IO_PORT "IO_sdram_dq[11]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[12]" B2;
+IO_LOC "IO_sdram_dq[12]" D16;
 IO_PORT "IO_sdram_dq[12]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[13]" C2;
+IO_LOC "IO_sdram_dq[13]" E10;
 IO_PORT "IO_sdram_dq[13]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[14]" L4;
+IO_LOC "IO_sdram_dq[14]" D10;
 IO_PORT "IO_sdram_dq[14]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "IO_sdram_dq[15]" L3;
+IO_LOC "IO_sdram_dq[15]" D11;
 IO_PORT "IO_sdram_dq[15]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
 
-IO_LOC "O_sdram_addr[0]" F6;
+IO_LOC "O_sdram_addr[0]" N15;
 IO_PORT "O_sdram_addr[0]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_addr[1]" F7;
+IO_LOC "O_sdram_addr[1]" R16;
 IO_PORT "O_sdram_addr[1]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_addr[2]" J10;
+IO_LOC "O_sdram_addr[2]" P15;
 IO_PORT "O_sdram_addr[2]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_addr[3]" J11;
+IO_LOC "O_sdram_addr[3]" P16;
 IO_PORT "O_sdram_addr[3]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_addr[4]" K7;
+IO_LOC "O_sdram_addr[4]" H13;
 IO_PORT "O_sdram_addr[4]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_addr[5]" H2;
+IO_LOC "O_sdram_addr[5]" G14;
 IO_PORT "O_sdram_addr[5]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_addr[6]" H1;
+IO_LOC "O_sdram_addr[6]" G15;
 IO_PORT "O_sdram_addr[6]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_addr[7]" H4;
+IO_LOC "O_sdram_addr[7]" F14;
 IO_PORT "O_sdram_addr[7]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_addr[8]" G4;
+IO_LOC "O_sdram_addr[8]" F16;
 IO_PORT "O_sdram_addr[8]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_addr[9]" J2;
+IO_LOC "O_sdram_addr[9]" E15;
 IO_PORT "O_sdram_addr[9]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_addr[10]" J8;
+IO_LOC "O_sdram_addr[10]" N16;
 IO_PORT "O_sdram_addr[10]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_addr[11]" J1;
+IO_LOC "O_sdram_addr[11]" D14;
 IO_PORT "O_sdram_addr[11]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_addr[12]" D1;
+IO_LOC "O_sdram_addr[12]" A15;
 IO_PORT "O_sdram_addr[12]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
 
-IO_LOC "O_sdram_ba[0]" L9;
+IO_LOC "O_sdram_ba[0]" L16;
 IO_PORT "O_sdram_ba[0]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_ba[1]" K8;
+IO_LOC "O_sdram_ba[1]" N14;
 IO_PORT "O_sdram_ba[1]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
 
-IO_LOC "O_sdram_dqm[0]" L8;
+IO_LOC "O_sdram_dqm[0]" J15;   // DQML
 IO_PORT "O_sdram_dqm[0]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_dqm[1]" L7;
+IO_LOC "O_sdram_dqm[1]" B13;   // DQMH
 IO_PORT "O_sdram_dqm[1]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
 
-IO_LOC "O_sdram_clk" E3;
+IO_LOC "O_sdram_clk" A14;
 IO_PORT "O_sdram_clk" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_wen_n" J7;
+IO_LOC "O_sdram_wen_n" K16;
 IO_PORT "O_sdram_wen_n" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_ras_n" L10;
+IO_LOC "O_sdram_ras_n" K15;
 IO_PORT "O_sdram_ras_n" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_cas_n" K10;
+IO_LOC "O_sdram_cas_n" K14;
 IO_PORT "O_sdram_cas_n" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
-IO_LOC "O_sdram_cs_n" K9;
+IO_LOC "O_sdram_cs_n" T9;
 IO_PORT "O_sdram_cs_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
-// 2 LEDs for debug
-IO_LOC "led[1]" E8;    // Ready
+// 2 LEDs for debug (Tang Primer 20K module LEDs, not shared with SDRAM)
+IO_LOC "led[1]" A13;    // READY
 IO_PORT "led[1]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
-IO_LOC "led[0]" D7;    // Done
-IO_PORT "led[0]" IO_TYPE=LVCMOS33 PULL_MODE=UP; 
+IO_LOC "led[0]" C13;    // DONE
+IO_PORT "led[0]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
 //------------------------------------------------------------------------------------
-// Joystick 1 on pmod
-IO_LOC "ds_clk" L5;
+// DualShock 1 - PMOD bottom row (IOB0-IOB3): L8, M6, P7, R7
+IO_LOC "ds_clk" L8;
 IO_PORT "ds_clk" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "ds_miso" K11;
+IO_LOC "ds_miso" P7;
 IO_PORT "ds_miso" PULL_MODE=UP IO_TYPE=LVCMOS33;
-IO_LOC "ds_mosi" E11;
+IO_LOC "ds_mosi" M6;
 IO_PORT "ds_mosi" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "ds_cs"  A11;
+IO_LOC "ds_cs" R7;
 IO_PORT "ds_cs" PULL_MODE=NONE IO_TYPE=LVCMOS33;
 
-// Joystick 2 on pmod
-IO_LOC "ds_clk2" K5;
+// DualShock 2 - PMOD top row (IOA0-IOA3): N9, R9, N8, L9
+IO_LOC "ds_clk2" N9;
 IO_PORT "ds_clk2" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "ds_miso2" L11;
+IO_LOC "ds_miso2" R9;
 IO_PORT "ds_miso2" PULL_MODE=UP IO_TYPE=LVCMOS33;
-IO_LOC "ds_mosi2" E10;
+IO_LOC "ds_mosi2" N8;
 IO_PORT "ds_mosi2" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "ds_cs2"  A10;
+IO_LOC "ds_cs2" L9;
 IO_PORT "ds_cs2" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-
