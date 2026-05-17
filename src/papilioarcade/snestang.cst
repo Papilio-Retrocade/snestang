@@ -7,42 +7,35 @@
 //   HDMI D0_P: P8 (corrected from M6 which is PMOD IOB1)
 
 IO_LOC "sys_clk" H11;        // 27MHz oscillator on Tang Primer 20K module
-IO_PORT "sys_clk" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=OFF BANK_VCCIO=3.3;
+IO_PORT "sys_clk" IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
 
 IO_LOC "s0" T10;             // Key1 FPGA_RST button
-IO_PORT "s0" IO_TYPE=LVCMOS33 PULL_MODE=UP DRIVE=OFF BANK_VCCIO=3.3;
+IO_PORT "s0" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
 
 // HDMI - Papilio Retrocade (verified via A2600Nano retrocade project)
-IO_LOC "tmds_clk_p" P6;
-IO_PORT "tmds_clk_p" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_clk_n" T6;
-IO_PORT "tmds_clk_n" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_d_p[0]" P8;
-IO_PORT "tmds_d_p[0]" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_d_n[0]" T8;
-IO_PORT "tmds_d_n[0]" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_d_p[1]" T11;
-IO_PORT "tmds_d_p[1]" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_d_n[1]" P11;
-IO_PORT "tmds_d_n[1]" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_d_p[2]" T12;
-IO_PORT "tmds_d_p[2]" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
-IO_LOC "tmds_d_n[2]" R11;
-IO_PORT "tmds_d_n[2]" PULL_MODE=NONE IO_TYPE=LVCMOS33D;
+// For differential pairs: IO_LOC lists both P,N pins; only IO_PORT for _p signal
+IO_LOC "tmds_clk_p" P6,T6;
+IO_PORT "tmds_clk_p" PULL_MODE=NONE IO_TYPE=LVCMOS33D DRIVE=8 BANK_VCCIO=3.3;
+IO_LOC "tmds_d_p[0]" P8,T8;
+IO_PORT "tmds_d_p[0]" PULL_MODE=NONE IO_TYPE=LVCMOS33D DRIVE=8 BANK_VCCIO=3.3;
+IO_LOC "tmds_d_p[1]" T11,P11;
+IO_PORT "tmds_d_p[1]" PULL_MODE=NONE IO_TYPE=LVCMOS33D DRIVE=8 BANK_VCCIO=3.3;
+IO_LOC "tmds_d_p[2]" T12,R11;
+IO_PORT "tmds_d_p[2]" PULL_MODE=NONE IO_TYPE=LVCMOS33D DRIVE=8 BANK_VCCIO=3.3;
 
-// SDCard
-IO_LOC "sd_clk" N10;
-IO_PORT "sd_clk" PULL_MODE=UP IO_TYPE=LVCMOS33;
-IO_LOC "sd_cmd" R14;         // MOSI
-IO_PORT "sd_cmd" PULL_MODE=UP IO_TYPE=LVCMOS33;
-IO_LOC "sd_dat0" M8;         // MISO (dat[0])
-IO_PORT "sd_dat0" PULL_MODE=UP IO_TYPE=LVCMOS33;
-IO_LOC "sd_dat1" M7;
-IO_PORT "sd_dat1" PULL_MODE=UP IO_TYPE=LVCMOS33;
-IO_LOC "sd_dat2" M10;
-IO_PORT "sd_dat2" PULL_MODE=UP IO_TYPE=LVCMOS33;
-IO_LOC "sd_dat3" N11;        // CS (dat[3])
-IO_PORT "sd_dat3" PULL_MODE=UP IO_TYPE=LVCMOS33;
+// SDCard (ports commented out in snestang_top.v — commented here too)
+// IO_LOC "sd_clk" N10;
+// IO_PORT "sd_clk" PULL_MODE=UP IO_TYPE=LVCMOS33;
+// IO_LOC "sd_cmd" R14;         // MOSI
+// IO_PORT "sd_cmd" PULL_MODE=UP IO_TYPE=LVCMOS33;
+// IO_LOC "sd_dat0" M8;         // MISO (dat[0])
+// IO_PORT "sd_dat0" PULL_MODE=UP IO_TYPE=LVCMOS33;
+// IO_LOC "sd_dat1" M7;
+// IO_PORT "sd_dat1" PULL_MODE=UP IO_TYPE=LVCMOS33;
+// IO_LOC "sd_dat2" M10;
+// IO_PORT "sd_dat2" PULL_MODE=UP IO_TYPE=LVCMOS33;
+// IO_LOC "sd_dat3" N11;        // CS (dat[3])
+// IO_PORT "sd_dat3" PULL_MODE=UP IO_TYPE=LVCMOS33;
 
 // UART through ESP32-S3
 IO_LOC "UART_RXD" E14;       // ESP32 TX -> FPGA RX
@@ -50,19 +43,19 @@ IO_LOC "UART_TXD" C9;        // FPGA TX -> ESP32 RX
 IO_PORT "UART_RXD" IO_TYPE=LVCMOS33;
 IO_PORT "UART_TXD" IO_TYPE=LVCMOS33;
 
-// SPI Flash (MSPI pins on Tang Primer 20K)
-IO_LOC "flash_spi_cs_n" M9;
-IO_PORT "flash_spi_cs_n" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "flash_spi_wp_n" P12;
-IO_PORT "flash_spi_wp_n" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "flash_spi_hold_n" F12;
-IO_PORT "flash_spi_hold_n" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "flash_spi_miso" P10;  // mspi_do (data out of flash)
-IO_PORT "flash_spi_miso" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "flash_spi_mosi" R10;  // mspi_di (data into flash)
-IO_PORT "flash_spi_mosi" PULL_MODE=NONE IO_TYPE=LVCMOS33;
-IO_LOC "flash_spi_clk" L10;
-IO_PORT "flash_spi_clk" PULL_MODE=NONE IO_TYPE=LVCMOS33;
+// SPI Flash (ports commented out in snestang_top.v — commented here too)
+// IO_LOC "flash_spi_cs_n" M9;
+// IO_PORT "flash_spi_cs_n" PULL_MODE=NONE IO_TYPE=LVCMOS33;
+// IO_LOC "flash_spi_wp_n" P12;
+// IO_PORT "flash_spi_wp_n" PULL_MODE=NONE IO_TYPE=LVCMOS33;
+// IO_LOC "flash_spi_hold_n" F12;
+// IO_PORT "flash_spi_hold_n" PULL_MODE=NONE IO_TYPE=LVCMOS33;
+// IO_LOC "flash_spi_miso" P10;  // mspi_do (data out of flash)
+// IO_PORT "flash_spi_miso" PULL_MODE=NONE IO_TYPE=LVCMOS33;
+// IO_LOC "flash_spi_mosi" R10;  // mspi_di (data into flash)
+// IO_PORT "flash_spi_mosi" PULL_MODE=NONE IO_TYPE=LVCMOS33;
+// IO_LOC "flash_spi_clk" L10;
+// IO_PORT "flash_spi_clk" PULL_MODE=NONE IO_TYPE=LVCMOS33;
 
 // SDRAM - Papilio Retrocade on-board IS42S16160J (16-bit, 13 row addr)
 // Source: papilio_retrocade_hardware/cst/Papilio_RetroCade_SDRAM.cst
