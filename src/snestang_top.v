@@ -615,7 +615,7 @@ snes2hdmi s2h(
     .tmds_d_n(tmds_d_n), .tmds_d_p(tmds_d_p)
 );
 
-iosys_retrocade #(.CORE_ID(8'h05), .FREQ(21_484_000)) iosys (
+iosys_retrocade #(.CORE_ID(8'h06), .FREQ(21_484_000)) iosys (
     .clk(mclk), .hclk(hclk), .resetn(resetn),
     .m0s(m0s),
     .overlay(overlay), .overlay_x(overlay_x), .overlay_y(overlay_y),

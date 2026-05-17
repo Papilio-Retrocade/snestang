@@ -40,7 +40,7 @@
 `timescale 1ns / 1ps
 
 module iosys_retrocade #(
-    parameter [7:0] CORE_ID = 8'h05,   // 5 = Atari 2600 (placeholder for SNES)
+    parameter [7:0] CORE_ID = 8'h06,   // 6 = SNES
     parameter        FREQ    = 21_484_000
 ) (
     input            clk,              // main clock (mclk)
