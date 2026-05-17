@@ -477,8 +477,8 @@ module iosys_retrocade #(
 
     wire        in_osd_comb = (overlay_x >= 8'd64)  && (overlay_x < 8'd192) &&
                                (overlay_y >= 8'd80)  && (overlay_y < 8'd144);
-    wire [6:0]  ox_comb     = overlay_x[6:0] - 7'd64;
-    wire [5:0]  oy_comb     = overlay_y[5:0] - 6'd80;
+    wire [6:0]  ox_comb     = overlay_x - 8'd64;   // 8-bit sub, result fits in 7 bits (0..127)
+    wire [5:0]  oy_comb     = overlay_y - 8'd80;   // 8-bit sub, result fits in 6 bits (0..63)
     wire [9:0]  osd_addr    = {oy_comb[5:3], ox_comb[6:0]};
     wire [2:0]  osd_bit     = oy_comb[2:0];
 
