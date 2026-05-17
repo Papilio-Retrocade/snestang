@@ -141,11 +141,13 @@ IO_PORT "O_sdram_cas_n" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
 IO_LOC "O_sdram_cs_n" T9;
 IO_PORT "O_sdram_cs_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
-// 2 LEDs for debug (Tang Primer 20K module LEDs, not shared with SDRAM)
-IO_LOC "led[1]" A13;    // READY
-IO_PORT "led[1]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
-IO_LOC "led[0]" C13;    // DONE
-IO_PORT "led[0]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+// Tang Primer 20K onboard LEDs are on DONE (C13) and READY (A13) dedicated pins.
+// use_done_as_gpio and use_ready_as_gpio are kept=0 (matching A2600Nano retrocade).
+// Led outputs in snestang_top.v will be unconnected.
+// IO_LOC "led[1]" A13;    // READY - dedicated pin, not used as GPIO
+// IO_PORT "led[1]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+// IO_LOC "led[0]" C13;    // DONE - dedicated pin, not used as GPIO
+// IO_PORT "led[0]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
 //------------------------------------------------------------------------------------
 // DualShock 1 - PMOD bottom row (IOB0-IOB3): L8, M6, P7, R7

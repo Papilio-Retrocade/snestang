@@ -76,4 +76,12 @@
         <File path="src/snestang.sdc" type="file.sdc" enable="1"/>
         <File path="src/mega138k/snestang.gao" type="file.gao" enable="0"/>
     </FileList>
+    <Options>
+        <Option name="output_file" value="snestang_papilioarcade"/>
+        <Option name="verilog_language" value="sysv-2017"/>
+        <Option name="use_mspi_as_gpio" value="1"/>
+        <Option name="use_sspi_as_gpio" value="1"/>
+        <Option name="use_ready_as_gpio" value="0"/>
+        <Option name="use_done_as_gpio" value="0"/>
+    </Options>
 </Project>
