@@ -46,6 +46,13 @@
         <File path="src/iosys/uart_fractional.v" type="file.verilog" enable="1"/>
         <File path="src/iosys/uart_fixed.v" type="file.verilog" enable="1"/>
         <File path="src/iosys/crc16.v" type="file.verilog" enable="1"/>
+        <File path="src/misc/mcu_spi.v" type="file.verilog" enable="1"/>
+        <File path="src/misc/hid.v" type="file.verilog" enable="1"/>
+        <File path="src/misc/sysctrl.v" type="file.verilog" enable="1"/>
+        <File path="src/misc/sd_card.v" type="file.verilog" enable="1"/>
+        <File path="src/misc/sd_rw.v" type="file.verilog" enable="1"/>
+        <File path="src/misc/sdcmd_ctrl.v" type="file.verilog" enable="1"/>
+        <File path="src/papilioarcade/iosys_retrocade.v" type="file.verilog" enable="1"/>
         <File path="src/main.v" type="file.verilog" enable="1"/>
 
         <File path="src/papilioarcade/config.v" type="file.verilog" enable="1"/>

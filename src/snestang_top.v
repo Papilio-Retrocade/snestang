@@ -15,9 +15,8 @@ module snestang_top (
     input sys_clk,
     input s0,
 
-    // UART
-    input UART_RXD,
-    output UART_TXD,
+    // ESP32 FPGA Companion SPI bus (m0s[0]=MISO, m0s[1]=MOSI, m0s[2]=SS, m0s[3]=CLK, m0s[4]=IRQn, m0s[5]=flash_cs)
+    inout [5:0] m0s,
 
     // HDMI TX
     output       tmds_clk_p,
@@ -29,12 +28,9 @@ module snestang_top (
     output [7:0] led,
 
     // MicroSD
-    // output sd_clk,
-    // inout  sd_cmd,      // MOSI
-    // input  sd_dat0,     // MISO
-    // output sd_dat1,
-    // output sd_dat2,
-    // output sd_dat3,
+    output sd_clk,
+    inout  sd_cmd,
+    inout  [3:0] sd_dat,
 
     // SPI flash
     // output flash_spi_cs_n,          // chip select
@@ -619,12 +615,13 @@ snes2hdmi s2h(
     .tmds_d_n(tmds_d_n), .tmds_d_p(tmds_d_p)
 );
 
-iosys_bl616 #(.CORE_ID(2), .FREQ(21_484_000)) iosys (
+iosys_retrocade #(.CORE_ID(8'h05), .FREQ(21_484_000)) iosys (
     .clk(mclk), .hclk(hclk), .resetn(resetn),
+    .m0s(m0s),
     .overlay(overlay), .overlay_x(overlay_x), .overlay_y(overlay_y),
     .overlay_color(overlay_color),
-    .joy1(joy1_btns_ds2 | joy1_btns_snes | joy1_usb), .joy2(joy2_btns_ds2 | joy2_btns_snes | joy2_usb), .hid1(hid1), .hid2(hid2),
-    .uart_tx(UART_TXD), .uart_rx(UART_RXD),
+    .hid1(hid1), .hid2(hid2),
+    .sd_clk(sd_clk), .sd_cmd(sd_cmd), .sd_dat(sd_dat),
     .rom_loading(loading), .rom_do(loader_do), .rom_do_valid(loader_do_valid)
 );
 
